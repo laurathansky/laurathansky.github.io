@@ -464,6 +464,10 @@ function renderAbout(s) {
 function renderContact(s) {
   const links = document.getElementById("contact-links");
   if (s["LinkedIn"]) links.append(el("a", { href: s["LinkedIn"], rel: "me" }, "LinkedIn"));
+  if (s["Instagram"]) {
+    const handle = s["Instagram"].replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/^@/, "").replace(/\/$/, "");
+    links.append(el("a", { href: "https://www.instagram.com/" + handle + "/", rel: "me" }, "Instagram"));
+  }
   if (s["Email"]) links.append(el("a", { href: "mailto:" + s["Email"] }, s["Email"]));
   if (links.children.length) document.getElementById("contact-tab").hidden = false;
 }
