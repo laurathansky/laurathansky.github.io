@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Laura Thansky</title>
-<meta name="description" content="Laura Thansky, marketing and PR student in Copenhagen. Projects and the skills behind them.">
+<meta name="description" content="Laura Thansky, marketing and PR student in Copenhagen. About me, projects and the skills behind them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -29,63 +29,70 @@
     font-size: 17px;
     line-height: 1.6;
   }
-  main { max-width: 760px; margin: 0 auto; padding: 96px 24px 64px; }
   a { color: inherit; text-underline-offset: 3px; }
   :focus-visible { outline: 2px solid var(--proof); outline-offset: 3px; }
 
+  /* Top bar with tabs */
+  .bar {
+    max-width: 760px; margin: 0 auto; padding: 28px 24px 0;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .wordmark { font-weight: 800; letter-spacing: -0.02em; text-decoration: none; font-size: 1.05rem; }
+  .tabs { display: flex; gap: 24px; }
+  .tabs a {
+    text-decoration: none; font-weight: 500; color: var(--muted);
+    padding-bottom: 4px; border-bottom: 2px solid transparent;
+  }
+  .tabs a:hover { color: var(--ink); }
+  .tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 72px 24px 64px; }
+  .panel[hidden] { display: none; }
+
+  /* About me */
   .name {
     font-size: clamp(3.25rem, 11vw, 7rem);
-    font-weight: 800;
-    line-height: 0.92;
-    letter-spacing: -0.045em;
+    font-weight: 800; line-height: 0.92; letter-spacing: -0.045em;
     margin: 0 0 24px;
   }
   .headline { font-size: 1.35rem; font-weight: 500; margin: 0 0 20px; }
   .intro { color: var(--muted); max-width: 62ch; margin: 0; }
-
-  section { margin-top: 88px; }
-  h2 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin: 0 0 8px;
+  .about-text { max-width: 62ch; margin: 28px 0 0; white-space: pre-line; }
+  .facts {
+    margin: 56px 0 0; display: grid; grid-template-columns: 9rem minmax(0, 1fr);
+    border-top: 1px solid var(--rule);
   }
-  .lede { color: var(--muted); margin: 0 0 28px; max-width: 62ch; }
+  .facts dt, .facts dd { padding: 14px 0; border-bottom: 1px solid var(--rule); margin: 0; }
+  .facts dt { color: var(--muted); font-weight: 500; }
 
-  /* Skills ledger: one square per public project that uses the skill */
+  /* Skill tracker */
+  .page-title { font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin: 0 0 20px; }
+  .lede { color: var(--muted); margin: 0 0 28px; max-width: 62ch; }
+  .block { margin-top: 64px; }
+  h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 0 0 8px; }
+
   .skills { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
   .skill { border-bottom: 1px solid var(--rule); }
   .skill-row {
-    all: unset;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    padding: 16px 0;
-    cursor: pointer;
+    all: unset; box-sizing: border-box; display: grid;
+    grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px;
+    width: 100%; padding: 16px 0; cursor: pointer;
   }
   .skill-row:focus-visible { outline: 2px solid var(--proof); outline-offset: 2px; }
   .skill-name { font-weight: 700; font-size: 1.1rem; }
-  .marks { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .marks { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
   .mark { width: 14px; height: 14px; background: var(--proof); }
   .skill-count { color: var(--muted); font-size: 0.85rem; margin-left: 10px; white-space: nowrap; }
   .skill-proof { display: none; margin: 0 0 18px; padding: 0; list-style: none; }
   .skill.open .skill-proof { display: block; }
   .skill-proof li { padding: 2px 0 2px 16px; position: relative; color: var(--muted); }
-  .skill-proof li::before {
-    content: ""; position: absolute; left: 0; top: 0.75em;
-    width: 6px; height: 6px; background: var(--proof);
-  }
+  .skill-proof li::before { content: ""; position: absolute; left: 0; top: 0.75em; width: 6px; height: 6px; background: var(--proof); }
 
-  /* Projects */
   .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
   .filter {
-    font: inherit; font-size: 0.95rem; font-weight: 500;
-    padding: 6px 14px; border: 1.5px solid var(--ink); background: var(--paper);
-    color: var(--ink); cursor: pointer; border-radius: 999px;
+    font: inherit; font-size: 0.95rem; font-weight: 500; padding: 6px 14px;
+    border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink);
+    cursor: pointer; border-radius: 999px;
   }
   .filter[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
   .filter[data-inst="ECCO"] { border-color: var(--ecco); }
@@ -96,11 +103,7 @@
   .filter[data-inst="AAU"][aria-pressed="true"] { background: var(--aau); }
 
   .projects { list-style: none; margin: 0; padding: 0; }
-  .project {
-    padding: 22px 0 22px 20px;
-    border-left: 4px solid var(--inst, var(--ink));
-    margin-bottom: 18px;
-  }
+  .project { padding: 22px 0 22px 20px; border-left: 4px solid var(--inst, var(--ink)); margin-bottom: 18px; }
   .project h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 4px; }
   .meta { margin: 0 0 14px; font-size: 0.95rem; color: var(--muted); }
   .meta .inst { color: var(--inst, var(--ink)); font-weight: 700; margin-right: 10px; }
@@ -109,59 +112,79 @@
   .project dd { margin: 0; }
   .project dd.result { font-weight: 700; }
   .project .tags { margin: 14px 0 0; font-size: 0.9rem; color: var(--proof); font-weight: 500; }
+  .empty { color: var(--muted); border-left: 4px solid var(--rule); padding: 4px 0 4px 20px; margin: 0; }
 
-  .note { color: var(--muted); }
-  .contact { display: flex; flex-wrap: wrap; gap: 24px; font-weight: 500; font-size: 1.1rem; }
-  footer { margin-top: 88px; padding-top: 20px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.9rem; }
+  /* Contact */
+  .contact { display: flex; flex-direction: column; gap: 14px; font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; letter-spacing: -0.02em; }
+
+  footer { max-width: 760px; margin: 0 auto; padding: 20px 24px 48px; color: var(--muted); font-size: 0.9rem; }
+  footer p { margin: 0; padding-top: 20px; border-top: 1px solid var(--rule); }
 
   @media (max-width: 560px) {
-    main { padding-top: 56px; }
+    main { padding-top: 48px; }
+    .tabs { gap: 18px; }
+    .facts { grid-template-columns: 1fr; }
+    .facts dt { border-bottom: 0; padding-bottom: 0; }
+    .facts dd { padding-top: 2px; }
     .project dl { grid-template-columns: 1fr; gap: 0; }
     .project dd { margin-bottom: 10px; }
     .skill-count { display: none; }
   }
   @media (prefers-reduced-motion: no-preference) {
-    .name { animation: rise 600ms cubic-bezier(.2,.7,.2,1) both; }
-    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .panel:not([hidden]) { animation: rise 450ms cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   }
 </style>
 </head>
 <body>
+<header class="bar">
+  <a class="wordmark" href="#about" id="wordmark">Laura Thansky</a>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#about" data-tab="about">About me</a>
+    <a href="#tracker" data-tab="tracker">Skill tracker</a>
+    <a href="#contact" data-tab="contact" id="contact-tab" hidden>Contact</a>
+  </nav>
+</header>
+
 <main>
-  <header>
+  <section class="panel" id="about" aria-labelledby="name">
     <h1 class="name" id="name">Laura Thansky</h1>
     <p class="headline" id="headline">Marketing and PR student in Copenhagen</p>
     <p class="intro" id="intro">I study marketing economics at EK in Copenhagen and work as a student assistant in PR and Communications at ECCO.</p>
-  </header>
-
-  <section id="skills-section" hidden>
-    <h2>Skills, with the work behind them</h2>
-    <p class="lede">Each square is a project on this page that used the skill. Open a skill to see which ones.</p>
-    <ul class="skills" id="skills"></ul>
+    <p class="about-text" id="about-text" hidden></p>
+    <dl class="facts" id="facts" hidden></dl>
   </section>
 
-  <section id="projects-section" hidden>
-    <h2>Projects</h2>
-    <p class="lede">Work from ECCO, EK and Aalborg University, with the brief, what I did and the result.</p>
-    <div class="filters" id="filters" role="group" aria-label="Show projects from"></div>
-    <ul class="projects" id="projects"></ul>
+  <section class="panel" id="tracker" aria-labelledby="tracker-title" hidden>
+    <h1 class="page-title" id="tracker-title">Skill tracker</h1>
+    <p class="lede" id="how">Every week I log what I worked on, which project it belongs to and which skill it used. The skills here are the ones backed by real projects.</p>
+
+    <div class="block" id="skills-block" hidden>
+      <h2>Skills, with the work behind them</h2>
+      <p class="lede">Each square is a project on this page that used the skill. Open a skill to see which ones.</p>
+      <ul class="skills" id="skills"></ul>
+    </div>
+
+    <div class="block" id="projects-block" hidden>
+      <h2>Projects</h2>
+      <p class="lede">The brief, what I did and the result.</p>
+      <div class="filters" id="filters" role="group" aria-label="Show projects from"></div>
+      <ul class="projects" id="projects"></ul>
+    </div>
+
+    <p class="empty block" id="tracker-empty">Projects appear here as I clear them for sharing.</p>
   </section>
 
-  <section id="how-section" hidden>
-    <h2>How I track my work</h2>
-    <p class="lede" id="how"></p>
+  <section class="panel" id="contact" aria-labelledby="contact-title" hidden>
+    <h1 class="page-title" id="contact-title">Contact</h1>
+    <div class="contact" id="contact-links"></div>
   </section>
-
-  <section id="contact-section" hidden>
-    <h2>Get in touch</h2>
-    <div class="contact" id="contact"></div>
-  </section>
-
-  <footer id="footer">This page reads from the work tracker I update every week.</footer>
 </main>
 
+<footer><p id="footer">This page reads from the work tracker I update every week.</p></footer>
+
 <script>
-// Paste the published CSV link of the Portfolio tab here (File > Share > Publish to the web).
+// Published CSV link of the Portfolio tab in my career tracker.
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbiaZaS4Gcgo9wcakzJh4p7gDiiVwB9urkw5_4cM7d_bFg0G0b1YHRNh-RrkkMZ4xuDA1OxZnOCak8/pub?gid=7&single=true&output=csv";
 
 const INSTITUTIONS = {
@@ -169,6 +192,21 @@ const INSTITUTIONS = {
   EK: { label: "EK", color: "var(--ek)" },
   AAU: { label: "Aalborg University", color: "var(--aau)" }
 };
+const FACT_KEYS = ["Studying", "Exchange", "Working", "Previously", "Languages", "Looking for"];
+const TABS = ["about", "tracker", "contact"];
+
+/* Tabs: the address (#about, #tracker, #contact) decides which panel shows, so each tab can be linked to directly. */
+function route() {
+  let tab = location.hash.slice(1);
+  if (!TABS.includes(tab) || document.querySelector(`[data-tab="${tab}"]`).hidden) tab = "about";
+  TABS.forEach(t => {
+    document.getElementById(t).hidden = t !== tab;
+    const link = document.querySelector(`[data-tab="${t}"]`);
+    if (t === tab) link.setAttribute("aria-current", "page"); else link.removeAttribute("aria-current");
+  });
+}
+window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+route();
 
 function parseCSV(text) {
   const rows = []; let row = []; let field = ""; let quoted = false;
@@ -207,18 +245,30 @@ function readData(rows) {
   return { projects, skills, settings };
 }
 
-function renderProfile(s) {
-  if (s["Name"]) { document.getElementById("name").textContent = s["Name"]; document.title = s["Name"]; }
+function renderAbout(s) {
+  if (s["Name"]) {
+    document.getElementById("name").textContent = s["Name"];
+    document.getElementById("wordmark").textContent = s["Name"];
+    document.title = s["Name"];
+  }
   if (s["Headline"]) document.getElementById("headline").textContent = s["Headline"];
   if (s["Intro"]) document.getElementById("intro").textContent = s["Intro"];
-  if (s["How I work"]) {
-    document.getElementById("how").textContent = s["How I work"];
-    document.getElementById("how-section").hidden = false;
+  if (s["About"]) {
+    const about = document.getElementById("about-text");
+    about.textContent = s["About"];
+    about.hidden = false;
   }
-  const contact = document.getElementById("contact");
-  if (s["LinkedIn"]) contact.append(el("a", { href: s["LinkedIn"], rel: "me" }, "LinkedIn"));
-  if (s["Email"]) contact.append(el("a", { href: "mailto:" + s["Email"] }, s["Email"]));
-  if (contact.children.length) document.getElementById("contact-section").hidden = false;
+  const facts = document.getElementById("facts");
+  FACT_KEYS.forEach(k => { if (s[k]) facts.append(el("dt", {}, k), el("dd", {}, s[k])); });
+  if (facts.children.length) facts.hidden = false;
+  if (s["How I work"]) document.getElementById("how").textContent = s["How I work"];
+}
+
+function renderContact(s) {
+  const links = document.getElementById("contact-links");
+  if (s["LinkedIn"]) links.append(el("a", { href: s["LinkedIn"], rel: "me" }, "LinkedIn"));
+  if (s["Email"]) links.append(el("a", { href: "mailto:" + s["Email"] }, s["Email"]));
+  if (links.children.length) document.getElementById("contact-tab").hidden = false;
 }
 
 function renderSkills(skills, projects) {
@@ -246,7 +296,7 @@ function renderSkills(skills, projects) {
     item.append(btn, proof);
     list.append(item);
   });
-  if (rows.length) document.getElementById("skills-section").hidden = false;
+  if (rows.length) document.getElementById("skills-block").hidden = false;
 }
 
 function renderProjects(projects) {
@@ -286,7 +336,10 @@ function renderProjects(projects) {
     });
   }
   show("All");
-  if (projects.length) document.getElementById("projects-section").hidden = false;
+  if (projects.length) {
+    document.getElementById("projects-block").hidden = false;
+    document.getElementById("tracker-empty").hidden = true;
+  }
 }
 
 async function load() {
@@ -295,9 +348,11 @@ async function load() {
     const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(res.status);
     const { projects, skills, settings } = readData(parseCSV(await res.text()));
-    renderProfile(settings);
+    renderAbout(settings);
+    renderContact(settings);
     renderSkills(skills, projects);
     renderProjects(projects);
+    route();
   } catch (err) {
     document.getElementById("footer").textContent = "Projects could not load right now. Refresh the page to try again.";
   }
