@@ -65,6 +65,56 @@
   .facts dt, .facts dd { padding: 14px 0; border-bottom: 1px solid var(--rule); margin: 0; }
   .facts dt { color: var(--muted); font-weight: 500; }
 
+  .section-title { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin: 72px 0 24px; }
+
+  /* Where I've lived: a route line with one stop per place */
+  .journey { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; }
+  .journey::before { content: ""; position: absolute; left: 7px; right: 0; top: 7px; height: 2px; background: var(--ink); }
+  .stop { position: relative; padding: 32px 16px 0 0; }
+  .stop::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--ink); border: 2px solid var(--ink); box-sizing: border-box;
+  }
+  .stop.now::before { background: var(--proof); border-color: var(--proof); }
+  .stop.next::before { background: var(--paper); }
+  .stop.next { color: var(--muted); }
+  .stop-city { display: block; font-weight: 800; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
+  .stop-country { display: block; font-size: 0.9rem; color: var(--muted); }
+  .stop-what { display: block; margin-top: 8px; font-size: 0.95rem; }
+
+  /* CV dropdowns */
+  .cv { border-top: 1px solid var(--rule); }
+  .cv details { border-bottom: 1px solid var(--rule); }
+  .cv summary {
+    list-style: none; cursor: pointer; padding: 22px 0;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px;
+  }
+  .cv summary::-webkit-details-marker { display: none; }
+  .cv summary:focus-visible { outline: 2px solid var(--proof); outline-offset: 2px; }
+  .cv-title { display: block; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+  .cv-preview { display: block; color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+  .cv-toggle { width: 28px; height: 28px; position: relative; flex: none; }
+  .cv-toggle::before, .cv-toggle::after {
+    content: ""; position: absolute; left: 6px; right: 6px; top: 13px; height: 2px; background: var(--ink);
+    transition: transform 200ms ease;
+  }
+  .cv-toggle::after { transform: rotate(90deg); }
+  .cv details[open] .cv-toggle::after { transform: rotate(0deg); }
+  .cv-body { padding: 0 0 28px; }
+
+  .entries { list-style: none; margin: 0; padding: 0; }
+  .entry { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 4px 20px; padding: 12px 0; }
+  .entry-when { color: var(--muted); font-size: 0.95rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .entry-title { font-weight: 700; display: block; }
+  .entry-where { display: block; color: var(--muted); }
+  .entry ul { margin: 6px 0 0; padding-left: 18px; }
+  .entry li { margin: 2px 0; }
+
+  .chip-groups { display: grid; gap: 18px; }
+  .chip-label { display: block; font-weight: 700; margin-bottom: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .chips li { padding: 5px 12px; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 0.95rem; font-weight: 500; }
+
   /* Skill tracker */
   .page-title { font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin: 0 0 20px; }
   .lede { color: var(--muted); margin: 0 0 28px; max-width: 62ch; }
@@ -126,6 +176,11 @@
     .facts { grid-template-columns: 1fr; }
     .facts dt { border-bottom: 0; padding-bottom: 0; }
     .facts dd { padding-top: 2px; }
+    .journey { grid-template-columns: 1fr; gap: 22px; }
+    .journey::before { left: 7px; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; }
+    .stop { padding: 0 0 0 32px; }
+    .entry { grid-template-columns: 1fr; gap: 0; }
+    .cv-title { font-size: 1.25rem; }
     .project dl { grid-template-columns: 1fr; gap: 0; }
     .project dd { margin-bottom: 10px; }
     .skill-count { display: none; }
@@ -153,6 +208,12 @@
     <p class="intro" id="intro">I study marketing economics at EK in Copenhagen and work as a student assistant in PR and Communications at ECCO.</p>
     <p class="about-text" id="about-text" hidden></p>
     <dl class="facts" id="facts" hidden></dl>
+
+    <h2 class="section-title">Where I've lived</h2>
+    <ol class="journey" id="journey"></ol>
+
+    <h2 class="section-title">My CV</h2>
+    <div class="cv" id="cv"></div>
   </section>
 
   <section class="panel" id="tracker" aria-labelledby="tracker-title" hidden>
@@ -173,6 +234,7 @@
     </div>
 
     <p class="empty block" id="tracker-empty">Projects appear here as I clear them for sharing.</p>
+    <p class="lede block" id="footer">This page reads from the work tracker I update every week.</p>
   </section>
 
   <section class="panel" id="contact" aria-labelledby="contact-title" hidden>
@@ -181,7 +243,6 @@
   </section>
 </main>
 
-<footer><p id="footer">This page reads from the work tracker I update every week.</p></footer>
 
 <script>
 // Published CSV link of the Portfolio tab in my career tracker.
@@ -192,7 +253,141 @@ const INSTITUTIONS = {
   EK: { label: "EK", color: "var(--ek)" },
   AAU: { label: "Aalborg University", color: "var(--aau)" }
 };
-const FACT_KEYS = ["Studying", "Exchange", "Working", "Previously", "Languages", "Looking for"];
+/* CV content for the About me tab. Edit here to update the dropdowns. */
+const JOURNEY = [
+  { city: "Montevideo", country: "Uruguay", what: "International preschool" },
+  { city: "Shanghai", country: "China", what: "IB diploma, 2018 to 2020" },
+  { city: "Copenhagen", country: "Denmark", what: "Studying and working, now", state: "now" },
+  { city: "Honolulu", country: "Hawaii, USA", what: "Exchange, spring 2027", state: "next" }
+];
+
+const CV = [
+  {
+    title: "Experience", preview: "ECCO, Hotel Absalon Group, Hotel Astoria",
+    entries: [
+      { when: "May 2026 to now", title: "PR and Communications", where: "ECCO Shoes A/S, Global Marketing", points: [
+        "Building the brand's press office to monitor all of ECCO's earned media",
+        "Supporting the PR and Communications team and the Event and Campaign Lead, preparing decks from campaign overviews for agencies to competitor benchmarking",
+        "Helped prepare and host ECCO's Copenhagen Fashion Week pop-up event and an artist-collaboration runway show",
+        "Supported the Influencer and Talent lead with talent management and organic content monitoring"
+      ] },
+      { when: "May to Aug 2026", title: "Store Assistant", where: "ECCO Shoes A/S, Flagship Store", points: [
+        "Advised an international customer base and handled complex inquiries"
+      ] },
+      { when: "Mar to Sep 2025", title: "Front Desk Receptionist", where: "Hotel Absalon Group", points: [
+        "Handled front desk tasks independently and gave guests sightseeing support"
+      ] },
+      { when: "Jan to Dec 2022", title: "Hotel Receptionist", where: "Hotel Astoria", points: [
+        "Handled check-ins, reservations and inquiries from international guests"
+      ] },
+      { when: "2020 to 2021", title: "Earlier roles", where: "Luxury Cinema, Restaurant Firenze, Papas Cafe", points: [
+        "Cinema kiosk attendant, including supervising staff under 18, and waitress"
+      ] }
+    ]
+  },
+  {
+    title: "Education", preview: "EK, Hawaii Pacific University, Aalborg University, IB in Shanghai",
+    entries: [
+      { when: "2026 to 2027", title: "Markedsføringsøkonom (AP degree)", where: "Erhvervsakademi København", points: [
+        "Marketing and communication, market analysis, business models, economics, business law, statistics"
+      ] },
+      { when: "Spring 2027", title: "Exchange semester", where: "Hawaii Pacific University, Honolulu" },
+      { when: "2024 to 2025", title: "Medialogy, BSc (2 semesters)", where: "Aalborg University Copenhagen", points: [
+        "Data handling in Python and C#, UI design in Figma, A/B testing"
+      ] },
+      { when: "2021", title: "Folk high school", where: "Roskilde Festival Højskole", points: [
+        "Leadership, events, ceramics, art"
+      ] },
+      { when: "2018 to 2020", title: "International Baccalaureate, 40 points", where: "Nord Anglia International School, Shanghai" },
+      { when: "2017 to 2018", title: "Sports boarding school, elite soccer", where: "Vejle Idrætsefterskole" },
+      { when: "Courses", title: "ITU Coding Café 2026", where: "5-week workshop on web development, robotics, AI and data analysis" },
+      { when: "Courses", title: "Mandarin", where: "Studieskolen Copenhagen and Hello Mandarin online course" }
+    ]
+  },
+  {
+    title: "Skills", preview: "Brand and PR, AI and digital, business, languages",
+    groups: [
+      { label: "Brand and PR", items: ["Press office", "Earned media monitoring", "Event production", "Organic content monitoring", "Competitor benchmarking"] },
+      { label: "AI and digital", items: ["AI-assisted research", "Deck building", "Vibe coding", "Rapid web prototyping"] },
+      { label: "Business", items: ["Market analysis", "Business model analysis", "Data and financial analysis", "PowerPoint", "Excel", "Canva"] },
+      { label: "Languages", items: ["Danish (fluent)", "English (fluent)", "Mandarin (beginner)"] }
+    ]
+  },
+  {
+    title: "Volunteering and travel", preview: "IMCC, Roskilde Festival, coaching, tutoring, Southeast Asia",
+    entries: [
+      { title: "Volunteer Educator", where: "IMCC Sexekspressen, sex and health education for 8th graders" },
+      { title: "Festival Volunteer", where: "Roskilde Festival and Musik i Lejet, guest check-in, accreditation and service" },
+      { title: "Founder, Art Therapy Program", where: "Weekly creative sessions for children during recess" },
+      { title: "U12 Girls' Football Coach", where: "Led team training sessions" },
+      { title: "English Tutor", where: "For local Chinese school students" },
+      { title: "Backpacking, Southeast Asia", where: "6 months, including volunteering through Workaway" }
+    ]
+  },
+  {
+    title: "Interests", preview: "Reading, Pilates, dance, bass, Chinese culture, branding trends",
+    groups: [
+      { label: "What I love", items: ["Reading", "Pilates", "Yoga", "Dance", "Bass", "Travel", "Chinese language and culture", "Feminist history", "Documentaries", "Cinema", "Branding and marketing trends"] },
+      { label: "On the side", items: ["Modelling with CEA Capsule", "Vibe coding my own websites"] }
+    ]
+  }
+];
+
+function renderJourney() {
+  const list = document.getElementById("journey");
+  JOURNEY.forEach(s => {
+    const li = el("li", { class: "stop" + (s.state ? " " + s.state : "") });
+    li.append(el("span", { class: "stop-city" }, s.city), el("span", { class: "stop-country" }, s.country), el("span", { class: "stop-what" }, s.what));
+    list.append(li);
+  });
+}
+
+function renderCV() {
+  const wrap = document.getElementById("cv");
+  CV.forEach(section => {
+    const details = el("details");
+    const summary = el("summary");
+    const text = el("span");
+    text.append(el("span", { class: "cv-title" }, section.title), el("span", { class: "cv-preview" }, section.preview));
+    summary.append(text, el("span", { class: "cv-toggle", "aria-hidden": "true" }));
+    const body = el("div", { class: "cv-body" });
+
+    if (section.entries) {
+      const ul = el("ul", { class: "entries" });
+      section.entries.forEach(e => {
+        const li = el("li", { class: "entry" });
+        li.append(el("span", { class: "entry-when" }, e.when || ""));
+        const main = el("div");
+        main.append(el("span", { class: "entry-title" }, e.title));
+        if (e.where) main.append(el("span", { class: "entry-where" }, e.where));
+        if (e.points) {
+          const pts = el("ul");
+          e.points.forEach(p => pts.append(el("li", {}, p)));
+          main.append(pts);
+        }
+        li.append(main);
+        ul.append(li);
+      });
+      body.append(ul);
+    }
+    if (section.groups) {
+      const groups = el("div", { class: "chip-groups" });
+      section.groups.forEach(g => {
+        const block = el("div");
+        block.append(el("span", { class: "chip-label" }, g.label));
+        const chips = el("ul", { class: "chips" });
+        g.items.forEach(i => chips.append(el("li", {}, i)));
+        block.append(chips);
+        groups.append(block);
+      });
+      body.append(groups);
+    }
+    details.append(summary, body);
+    wrap.append(details);
+  });
+}
+
+const FACT_KEYS =["Studying", "Exchange", "Working", "Previously", "Languages", "Looking for"];
 const TABS = ["about", "tracker", "contact"];
 
 /* Tabs: the address (#about, #tracker, #contact) decides which panel shows, so each tab can be linked to directly. */
@@ -207,6 +402,8 @@ function route() {
 }
 window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
 route();
+renderJourney();
+renderCV();
 
 function parseCSV(text) {
   const rows = []; let row = []; let field = ""; let quoted = false;
