@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laura Thansky</title>
+<meta name="description" content="Laura Thansky, marketing and PR student in Copenhagen. Projects and the skills behind them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #000000;
+    --muted: #5e5e5e;
+    --rule: #e2e2e2;
+    --proof: #2d6b4f;
+    --ecco: #2f4858;
+    --ek: #6a4c93;
+    --aau: #c05746;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 96px 24px 64px; }
+  a { color: inherit; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--proof); outline-offset: 3px; }
+
+  .name {
+    font-size: clamp(3.25rem, 11vw, 7rem);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    margin: 0 0 24px;
+  }
+  .headline { font-size: 1.35rem; font-weight: 500; margin: 0 0 20px; }
+  .intro { color: var(--muted); max-width: 62ch; margin: 0; }
+
+  section { margin-top: 88px; }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 8px;
+  }
+  .lede { color: var(--muted); margin: 0 0 28px; max-width: 62ch; }
+
+  /* Skills ledger: one square per public project that uses the skill */
+  .skills { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .skill { border-bottom: 1px solid var(--rule); }
+  .skill-row {
+    all: unset;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 0;
+    cursor: pointer;
+  }
+  .skill-row:focus-visible { outline: 2px solid var(--proof); outline-offset: 2px; }
+  .skill-name { font-weight: 700; font-size: 1.1rem; }
+  .marks { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+  .mark { width: 14px; height: 14px; background: var(--proof); }
+  .skill-count { color: var(--muted); font-size: 0.85rem; margin-left: 10px; white-space: nowrap; }
+  .skill-proof { display: none; margin: 0 0 18px; padding: 0; list-style: none; }
+  .skill.open .skill-proof { display: block; }
+  .skill-proof li { padding: 2px 0 2px 16px; position: relative; color: var(--muted); }
+  .skill-proof li::before {
+    content: ""; position: absolute; left: 0; top: 0.75em;
+    width: 6px; height: 6px; background: var(--proof);
+  }
+
+  /* Projects */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+  .filter {
+    font: inherit; font-size: 0.95rem; font-weight: 500;
+    padding: 6px 14px; border: 1.5px solid var(--ink); background: var(--paper);
+    color: var(--ink); cursor: pointer; border-radius: 999px;
+  }
+  .filter[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  .filter[data-inst="ECCO"] { border-color: var(--ecco); }
+  .filter[data-inst="ECCO"][aria-pressed="true"] { background: var(--ecco); }
+  .filter[data-inst="EK"] { border-color: var(--ek); }
+  .filter[data-inst="EK"][aria-pressed="true"] { background: var(--ek); }
+  .filter[data-inst="AAU"] { border-color: var(--aau); }
+  .filter[data-inst="AAU"][aria-pressed="true"] { background: var(--aau); }
+
+  .projects { list-style: none; margin: 0; padding: 0; }
+  .project {
+    padding: 22px 0 22px 20px;
+    border-left: 4px solid var(--inst, var(--ink));
+    margin-bottom: 18px;
+  }
+  .project h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; margin: 0 0 4px; }
+  .meta { margin: 0 0 14px; font-size: 0.95rem; color: var(--muted); }
+  .meta .inst { color: var(--inst, var(--ink)); font-weight: 700; margin-right: 10px; }
+  .project dl { margin: 0; display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 6px 16px; }
+  .project dt { font-weight: 500; color: var(--muted); }
+  .project dd { margin: 0; }
+  .project dd.result { font-weight: 700; }
+  .project .tags { margin: 14px 0 0; font-size: 0.9rem; color: var(--proof); font-weight: 500; }
+
+  .note { color: var(--muted); }
+  .contact { display: flex; flex-wrap: wrap; gap: 24px; font-weight: 500; font-size: 1.1rem; }
+  footer { margin-top: 88px; padding-top: 20px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.9rem; }
+
+  @media (max-width: 560px) {
+    main { padding-top: 56px; }
+    .project dl { grid-template-columns: 1fr; gap: 0; }
+    .project dd { margin-bottom: 10px; }
+    .skill-count { display: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .name { animation: rise 600ms cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 class="name" id="name">Laura Thansky</h1>
+    <p class="headline" id="headline">Marketing and PR student in Copenhagen</p>
+    <p class="intro" id="intro">I study marketing economics at EK in Copenhagen and work as a student assistant in PR and Communications at ECCO.</p>
+  </header>
+
+  <section id="skills-section" hidden>
+    <h2>Skills, with the work behind them</h2>
+    <p class="lede">Each square is a project on this page that used the skill. Open a skill to see which ones.</p>
+    <ul class="skills" id="skills"></ul>
+  </section>
+
+  <section id="projects-section" hidden>
+    <h2>Projects</h2>
+    <p class="lede">Work from ECCO, EK and Aalborg University, with the brief, what I did and the result.</p>
+    <div class="filters" id="filters" role="group" aria-label="Show projects from"></div>
+    <ul class="projects" id="projects"></ul>
+  </section>
+
+  <section id="how-section" hidden>
+    <h2>How I track my work</h2>
+    <p class="lede" id="how"></p>
+  </section>
+
+  <section id="contact-section" hidden>
+    <h2>Get in touch</h2>
+    <div class="contact" id="contact"></div>
+  </section>
+
+  <footer id="footer">This page reads from the work tracker I update every week.</footer>
+</main>
+
+<script>
+// Paste the published CSV link of the Portfolio tab here (File > Share > Publish to the web).
+const SHEET_CSV_URL = "";
+
+const INSTITUTIONS = {
+  ECCO: { label: "ECCO", color: "var(--ecco)" },
+  EK: { label: "EK", color: "var(--ek)" },
+  AAU: { label: "Aalborg University", color: "var(--aau)" }
+};
+
+function parseCSV(text) {
+  const rows = []; let row = []; let field = ""; let quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (c === '"') quoted = false;
+      else field += c;
+    } else if (c === '"') quoted = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+    else if (c !== "\r") field += c;
+  }
+  if (field !== "" || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function el(tag, attrs, text) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) node.setAttribute(k, v);
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function readData(rows) {
+  const body = rows.slice(1);
+  const projects = body.filter(r => (r[1] || "").trim()).map(r => ({
+    inst: r[0].trim(), name: r[1].trim(), type: r[2], status: r[3], when: r[4],
+    goal: r[5], did: r[6], result: r[7],
+    skills: (r[8] || "").split(",").map(s => s.trim()).filter(Boolean)
+  }));
+  const skills = body.map(r => (r[11] || "").trim()).filter(Boolean);
+  const settings = {};
+  body.forEach(r => { if ((r[15] || "").trim()) settings[r[15].trim()] = (r[16] || "").trim(); });
+  return { projects, skills, settings };
+}
+
+function renderProfile(s) {
+  if (s["Name"]) { document.getElementById("name").textContent = s["Name"]; document.title = s["Name"]; }
+  if (s["Headline"]) document.getElementById("headline").textContent = s["Headline"];
+  if (s["Intro"]) document.getElementById("intro").textContent = s["Intro"];
+  if (s["How I work"]) {
+    document.getElementById("how").textContent = s["How I work"];
+    document.getElementById("how-section").hidden = false;
+  }
+  const contact = document.getElementById("contact");
+  if (s["LinkedIn"]) contact.append(el("a", { href: s["LinkedIn"], rel: "me" }, "LinkedIn"));
+  if (s["Email"]) contact.append(el("a", { href: "mailto:" + s["Email"] }, s["Email"]));
+  if (contact.children.length) document.getElementById("contact-section").hidden = false;
+}
+
+function renderSkills(skills, projects) {
+  const list = document.getElementById("skills");
+  const rows = skills.map(skill => ({
+    skill,
+    uses: projects.filter(p => p.skills.some(s => s.toLowerCase() === skill.toLowerCase()))
+  })).filter(r => r.uses.length).sort((a, b) => b.uses.length - a.uses.length);
+
+  rows.forEach(({ skill, uses }, i) => {
+    const item = el("li", { class: "skill" });
+    const id = "proof-" + i;
+    const btn = el("button", { class: "skill-row", "aria-expanded": "false", "aria-controls": id });
+    btn.append(el("span", { class: "skill-name" }, skill));
+    const marks = el("span", { class: "marks", "aria-hidden": "true" });
+    uses.forEach(() => marks.append(el("span", { class: "mark" })));
+    marks.append(el("span", { class: "skill-count" }, uses.length + (uses.length === 1 ? " project" : " projects")));
+    btn.append(marks);
+    const proof = el("ul", { class: "skill-proof", id });
+    uses.forEach(p => proof.append(el("li", {}, p.name)));
+    btn.addEventListener("click", () => {
+      const open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    item.append(btn, proof);
+    list.append(item);
+  });
+  if (rows.length) document.getElementById("skills-section").hidden = false;
+}
+
+function renderProjects(projects) {
+  const list = document.getElementById("projects");
+  const filters = document.getElementById("filters");
+  const present = [...new Set(projects.map(p => p.inst))];
+
+  function show(inst) {
+    list.replaceChildren();
+    projects.filter(p => inst === "All" || p.inst === inst).forEach(p => {
+      const info = INSTITUTIONS[p.inst] || { label: p.inst, color: "var(--ink)" };
+      const li = el("li", { class: "project" });
+      li.style.setProperty("--inst", info.color);
+      li.append(el("h3", {}, p.name));
+      const meta = el("p", { class: "meta" });
+      meta.append(el("span", { class: "inst" }, info.label));
+      meta.append(document.createTextNode([p.when, p.type].filter(Boolean).join(", ")));
+      li.append(meta);
+      const dl = el("dl");
+      [["The brief", p.goal, ""], ["What I did", p.did, ""], ["Result", p.result, "result"]].forEach(([label, value, cls]) => {
+        if (!value) return;
+        dl.append(el("dt", {}, label), el("dd", cls ? { class: cls } : {}, value));
+      });
+      li.append(dl);
+      if (p.skills.length) li.append(el("p", { class: "tags" }, p.skills.join(", ")));
+      list.append(li);
+    });
+    filters.querySelectorAll(".filter").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.inst === inst)));
+  }
+
+  if (present.length > 1) {
+    ["All", ...present].forEach(inst => {
+      const label = inst === "All" ? "All projects" : (INSTITUTIONS[inst] || { label: inst }).label;
+      const b = el("button", { class: "filter", type: "button", "data-inst": inst, "aria-pressed": "false" }, label);
+      b.addEventListener("click", () => show(inst));
+      filters.append(b);
+    });
+  }
+  show("All");
+  if (projects.length) document.getElementById("projects-section").hidden = false;
+}
+
+async function load() {
+  if (!SHEET_CSV_URL) return;
+  try {
+    const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    const { projects, skills, settings } = readData(parseCSV(await res.text()));
+    renderProfile(settings);
+    renderSkills(skills, projects);
+    renderProjects(projects);
+  } catch (err) {
+    document.getElementById("footer").textContent = "Projects could not load right now. Refresh the page to try again.";
+  }
+}
+load();
+</script>
+</body>
+</html>
